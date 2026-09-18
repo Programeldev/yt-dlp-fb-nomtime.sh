@@ -23,6 +23,11 @@ while [[ -n "$1" ]]; do
 		fi
 	# Get URL from clipboard (wayland only)
 	elif [[ ${1:0:2} == "-c" ]]; then
+		if ! command -v wl-paste >/dev/null; then
+			error "Error: No 'wl-paste' command found. Can't take URL from clipboard. Aborting..."
+			exit 1
+		fi
+
 		if [[ -n "$url" ]]; then
 			error "Info: The -c option has already been used once. Ommiting..."
 		elif [[ -z "$(wl-paste)" ]]; then
